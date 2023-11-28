@@ -1,0 +1,36 @@
+---
+Resources:
+  MyRedHatPatchBaseline:
+    Type: AWS::SSM::PatchBaseline
+    Properties:
+      Name: MyRedHatPatchBaseline
+      OperatingSystem: REDHAT
+      ApprovedPatches:
+        - RHSA-2022:0001
+        - RHSA-2022:0002
+        # Add more approved patches as needed
+      ApprovedPatchesComplianceLevel: "CRITICAL"
+      ApprovedPatchesEnableNonSecurity: true
+      RejectedPatches:
+        - RHSA-2022:0003
+        # Add more rejected patches as needed
+      Description: "Patch baseline for Red Hat"
+      Sources:
+        - Name: REDHAT
+      GlobalFilters:
+        - Key: "CLASSIFICATION"
+          Values:
+            - "Critical Updates"
+            - "Security Updates"
+      ApprovalRules:
+        PatchRules:
+          - PatchFilterGroup:
+              PatchFilters:
+                - Key: "PRODUCT"
+                  Values:
+                    - "Red Hat Enterprise Linux Server"
+                - Key: "SEVERITY"
+                  Values:
+                    - "Critical"
+              ComplianceLevel: "CRITICAL"
+              EnableNonSecurity: true
