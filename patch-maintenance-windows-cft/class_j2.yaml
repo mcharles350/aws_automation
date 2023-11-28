@@ -1,0 +1,88 @@
+---
+Resources:
+  # Group I
+  MyMaintenanceWindowGroupI:
+    Type: AWS::SSM::MaintenanceWindow
+    Properties:
+      Name: ieee_mw_class_j2_group_1
+      Schedule: "cron(0 9 ? * MON#4 *)"  # This schedule runs on the 4th Saturday of every month at midnight UTC.
+      Duration: 1  # Duration in hours
+      Cutoff: 0
+      AllowUnassociatedTargets: false
+
+  MyPatchManagementTask:
+    Type: AWS::SSM::MaintenanceWindowTask
+    Properties:
+      WindowId: !Ref MyMaintenanceWindowGroupI
+      Targets:
+        - Key: "ResourceGroup"
+          Values:
+            - Fn::Sub: |
+                {{
+                  "Key": "tag:Patch Group",
+                  "Values": ["CLASS_J2_RHEL_GROUP1", "CLASS_J2_WINDOWS_GROUP1", "CLASS_J2_AMZN_LINUX_GROUP1", "CLASS_J2_AMZN_LINUX_2_GROUP1", "CLASS_J2_UBUNTU_GROUP1", "CLASS_J2_CENTOS_GROUP1"]
+                }}
+      TaskArn: "AWS-RunPatchBaseline"  # Example task, adjust as needed
+      TaskType: "RUN_COMMAND"
+      MaxConcurrency: "2"
+      MaxErrors: "1"
+      Priority: 0
+      #ServiceRoleArn: "arn:aws:iam::account-id-without-hyphens:role/service-role/PatchBaselineRole"  # Replace with your role ARN
+
+  # Group II
+  MyMaintenanceWindowGroupII:
+    Type: AWS::SSM::MaintenanceWindow
+    Properties:
+      Name: ieee_mw_class_j2_group_2
+      Schedule: "cron(0 10 ? * MON#4 *)"  # This schedule runs on the 4th Saturday of every month at midnight UTC.
+      Duration: 1  # Duration in hours
+      Cutoff: 0
+      AllowUnassociatedTargets: false
+
+  MyPatchManagementTaskGroupII:
+    Type: AWS::SSM::MaintenanceWindowTask
+    Properties:
+      WindowId: !Ref MyMaintenanceWindowGroupII
+      Targets:
+        - Key: "ResourceGroup"
+          Values:
+            - Fn::Sub: |
+                {{
+                  "Key": "tag:Patch Group",
+                  "Values": ["CLASS_J2_RHEL_GROUP2", "CLASS_J2_WINDOWS_GROUP2", "CLASS_J2_AMZN_LINUX_GROUP2", "CLASS_J2_AMZN_LINUX_2_GROUP2", "CLASS_J2_UBUNTU_GROUP2", "CLASS_J2_CENTOS_GROUP2"]
+                }}
+      TaskArn: "AWS-RunPatchBaseline"  # Example task, adjust as needed
+      TaskType: "RUN_COMMAND"
+      MaxConcurrency: "2"
+      MaxErrors: "1"
+      Priority: 0
+      #ServiceRoleArn: "arn:aws:iam::account-id-without-hyphens:role/service-role/PatchBaselineRole"  # Replace with your role ARN
+
+  # Group III
+  MyMaintenanceWindowGroupIII:
+    Type: AWS::SSM::MaintenanceWindow
+    Properties:
+      Name: ieee_mw_class_j2_group_3
+      Schedule: "cron(30 10 ? * MON#4 *)"  # This schedule runs on the 4th Saturday of every month at midnight UTC.
+      Duration: 1  # Duration in hours
+      Cutoff: 0
+      AllowUnassociatedTargets: false
+
+  MyPatchManagementTaskGroupIII:
+    Type: AWS::SSM::MaintenanceWindowTask
+    Properties:
+      WindowId: !Ref MyMaintenanceWindowGroupIII
+      Targets:
+        - Key: "ResourceGroup"
+          Values:
+            - Fn::Sub: |
+                {{
+                  "Key": "tag:Patch Group",
+                  "Values": ["CLASS_J2_RHEL_GROUP3", "CLASS_J2_WINDOWS_GROUP3", "CLASS_J2_AMZN_LINUX_GROUP3", "CLASS_J2_AMZN_LINUX_2_GROUP3", "CLASS_J2_UBUNTU_GROUP3", "CLASS_J2_CENTOS_GROUP3"]
+                }}
+      TaskArn: "AWS-RunPatchBaseline"  # Example task, adjust as needed
+      TaskType: "RUN_COMMAND"
+      MaxConcurrency: "2"
+      MaxErrors: "1"
+      Priority: 0
+      #ServiceRoleArn: "arn:aws:iam::account-id-without-hyphens:role/service-role/PatchBaselineRole"  # Replace with your role ARN      

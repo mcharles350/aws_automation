@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  InstanceIds:
+    Type: List<AWS::EC2::InstanceId>
+    
+Resources:
+  MyAutomationExecution:
+    Type: "AWS::SSM::AutomationExecution"
+    Properties:
+      DocumentName: "AWSEC2-CreateImage"
+      Parameters:
+        InstanceId: !Ref InstanceIds
+        Name: !Sub "${InstanceName}-${Year}-${Month}-${Day}", 
+        NoReboot: "false"
